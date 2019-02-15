@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f3d0c11092ff4701a8577cec3c226a1d" Name="Diagram1">
+        <EntityTypeShape EntityType="ItauDBModel.Anuncio" Width="1.75" PointX="2.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ItauDBModel.AnuncioHistorico" Width="1.75" PointX="5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ItauDBModel.Configuracao" Width="1.5" PointX="0.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ItauDBModel.LocalTipo" Width="1.5" PointX="7.5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ItauDBModel.Usuario" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="ItauDBModel.FKAnunciosHistoricosAnuncios" ManuallyRouted="false" />
+        <AssociationConnector Association="ItauDBModel.FKAnuncioUsuarios" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ItauDBModel.Local" Width="1.5" PointX="7.5" PointY="0.5" />
+        <AssociationConnector Association="ItauDBModel.FKAnunciosHistoricosLocais" />
+        <AssociationConnector Association="ItauDBModel.FKbLocaisLocaisTipos" />
+        <EntityTypeShape EntityType="ItauDBModel.Plano" Width="1.75" PointX="5" PointY="3.5" />
+        <AssociationConnector Association="ItauDBModel.tbPlanosLocaisTipos" />
+        <AssociationConnector Association="ItauDBModel.FKAnunciosPlanos" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

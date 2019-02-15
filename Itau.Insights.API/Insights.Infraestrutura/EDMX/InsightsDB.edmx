@@ -1,0 +1,511 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ItauDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbAnuncios">
+          <Key>
+            <PropertyRef Name="codAnuncio" />
+          </Key>
+          <Property Name="codAnuncio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codUsuario" Type="int" Nullable="false" />
+          <Property Name="codPlano" Type="int" />
+          <Property Name="titulo" Type="nvarchar" MaxLength="250" />
+          <Property Name="imagem" Type="varbinary(max)" />
+          <Property Name="texto" Type="nvarchar(max)" />
+          <Property Name="telefone" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="site" Type="varchar" MaxLength="50" />
+          <Property Name="endereco" Type="varchar" MaxLength="150" />
+          <Property Name="latitude" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="longitude" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="dataCadastro" Type="datetime" />
+          <Property Name="ativo" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbAnunciosHistoricos">
+          <Key>
+            <PropertyRef Name="codAnuncioHistorico" />
+          </Key>
+          <Property Name="codAnuncioHistorico" Type="int" Nullable="false" />
+          <Property Name="codAnuncio" Type="int" />
+          <Property Name="codLocal" Type="int" />
+          <Property Name="dataInicial" Type="datetime" />
+          <Property Name="dataFinal" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbConfiguracoes">
+          <Key>
+            <PropertyRef Name="parametro" />
+          </Key>
+          <Property Name="parametro" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="valor" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tbLocais">
+          <Key>
+            <PropertyRef Name="codLocal" />
+          </Key>
+          <Property Name="codLocal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codLocalTipo" Type="int" />
+          <Property Name="descricao" Type="nvarchar" MaxLength="150" />
+          <Property Name="latitude" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="longitude" Type="decimal" Precision="9" Scale="6" />
+        </EntityType>
+        <EntityType Name="tbLocaisTipos">
+          <Key>
+            <PropertyRef Name="codLocalTipo" />
+          </Key>
+          <Property Name="codLocalTipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="nchar" MaxLength="10" />
+          <Property Name="ativo" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbPlanos">
+          <Key>
+            <PropertyRef Name="codPlano" />
+          </Key>
+          <Property Name="codPlano" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descricao" Type="nvarchar(max)" />
+          <Property Name="valor" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="tbPlanosLocaisTipos">
+          <Key>
+            <PropertyRef Name="codPlano" />
+            <PropertyRef Name="codLocalTipo" />
+          </Key>
+          <Property Name="codPlano" Type="int" Nullable="false" />
+          <Property Name="codLocalTipo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbUsuarios">
+          <Key>
+            <PropertyRef Name="codUsuario" />
+          </Key>
+          <Property Name="codUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="nvarchar" MaxLength="250" />
+          <Property Name="sobrenome" Type="nvarchar" MaxLength="250" />
+          <Property Name="email" Type="nvarchar" MaxLength="250" />
+          <Property Name="senha" Type="nvarchar(max)" />
+          <Property Name="dataCadastro" Type="nvarchar" MaxLength="250" />
+          <Property Name="ativo" Type="bit" />
+        </EntityType>
+        <Association Name="FKAnunciosHistoricosAnuncios">
+          <End Role="tbAnuncios" Type="Self.tbAnuncios" Multiplicity="0..1" />
+          <End Role="tbAnunciosHistoricos" Type="Self.tbAnunciosHistoricos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbAnuncios">
+              <PropertyRef Name="codAnuncio" />
+            </Principal>
+            <Dependent Role="tbAnunciosHistoricos">
+              <PropertyRef Name="codAnuncio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKAnunciosHistoricosLocais">
+          <End Role="tbLocais" Type="Self.tbLocais" Multiplicity="0..1" />
+          <End Role="tbAnunciosHistoricos" Type="Self.tbAnunciosHistoricos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbLocais">
+              <PropertyRef Name="codLocal" />
+            </Principal>
+            <Dependent Role="tbAnunciosHistoricos">
+              <PropertyRef Name="codLocal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKAnunciosPlanos">
+          <End Role="tbPlanos" Type="Self.tbPlanos" Multiplicity="0..1" />
+          <End Role="tbAnuncios" Type="Self.tbAnuncios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbPlanos">
+              <PropertyRef Name="codPlano" />
+            </Principal>
+            <Dependent Role="tbAnuncios">
+              <PropertyRef Name="codPlano" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKAnuncioUsuarios">
+          <End Role="tbUsuarios" Type="Self.tbUsuarios" Multiplicity="1" />
+          <End Role="tbAnuncios" Type="Self.tbAnuncios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuarios">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbAnuncios">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKbLocaisLocaisTipos">
+          <End Role="tbLocaisTipos" Type="Self.tbLocaisTipos" Multiplicity="0..1" />
+          <End Role="tbLocais" Type="Self.tbLocais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbLocaisTipos">
+              <PropertyRef Name="codLocalTipo" />
+            </Principal>
+            <Dependent Role="tbLocais">
+              <PropertyRef Name="codLocalTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPlanosLocaisTiposLocaisTipos">
+          <End Role="tbLocaisTipos" Type="Self.tbLocaisTipos" Multiplicity="1" />
+          <End Role="tbPlanosLocaisTipos" Type="Self.tbPlanosLocaisTipos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbLocaisTipos">
+              <PropertyRef Name="codLocalTipo" />
+            </Principal>
+            <Dependent Role="tbPlanosLocaisTipos">
+              <PropertyRef Name="codLocalTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKPlanosLocaisTiposPlanos">
+          <End Role="tbPlanos" Type="Self.tbPlanos" Multiplicity="1" />
+          <End Role="tbPlanosLocaisTipos" Type="Self.tbPlanosLocaisTipos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbPlanos">
+              <PropertyRef Name="codPlano" />
+            </Principal>
+            <Dependent Role="tbPlanosLocaisTipos">
+              <PropertyRef Name="codPlano" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ItauDBModelStoreContainer">
+          <EntitySet Name="tbAnuncios" EntityType="Self.tbAnuncios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbAnunciosHistoricos" EntityType="Self.tbAnunciosHistoricos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbConfiguracoes" EntityType="Self.tbConfiguracoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbLocais" EntityType="Self.tbLocais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbLocaisTipos" EntityType="Self.tbLocaisTipos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbPlanos" EntityType="Self.tbPlanos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbPlanosLocaisTipos" EntityType="Self.tbPlanosLocaisTipos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbUsuarios" EntityType="Self.tbUsuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FKAnunciosHistoricosAnuncios" Association="Self.FKAnunciosHistoricosAnuncios">
+            <End Role="tbAnuncios" EntitySet="tbAnuncios" />
+            <End Role="tbAnunciosHistoricos" EntitySet="tbAnunciosHistoricos" />
+          </AssociationSet>
+          <AssociationSet Name="FKAnunciosHistoricosLocais" Association="Self.FKAnunciosHistoricosLocais">
+            <End Role="tbLocais" EntitySet="tbLocais" />
+            <End Role="tbAnunciosHistoricos" EntitySet="tbAnunciosHistoricos" />
+          </AssociationSet>
+          <AssociationSet Name="FKAnunciosPlanos" Association="Self.FKAnunciosPlanos">
+            <End Role="tbPlanos" EntitySet="tbPlanos" />
+            <End Role="tbAnuncios" EntitySet="tbAnuncios" />
+          </AssociationSet>
+          <AssociationSet Name="FKAnuncioUsuarios" Association="Self.FKAnuncioUsuarios">
+            <End Role="tbUsuarios" EntitySet="tbUsuarios" />
+            <End Role="tbAnuncios" EntitySet="tbAnuncios" />
+          </AssociationSet>
+          <AssociationSet Name="FKbLocaisLocaisTipos" Association="Self.FKbLocaisLocaisTipos">
+            <End Role="tbLocaisTipos" EntitySet="tbLocaisTipos" />
+            <End Role="tbLocais" EntitySet="tbLocais" />
+          </AssociationSet>
+          <AssociationSet Name="FKPlanosLocaisTiposLocaisTipos" Association="Self.FKPlanosLocaisTiposLocaisTipos">
+            <End Role="tbLocaisTipos" EntitySet="tbLocaisTipos" />
+            <End Role="tbPlanosLocaisTipos" EntitySet="tbPlanosLocaisTipos" />
+          </AssociationSet>
+          <AssociationSet Name="FKPlanosLocaisTiposPlanos" Association="Self.FKPlanosLocaisTiposPlanos">
+            <End Role="tbPlanos" EntitySet="tbPlanos" />
+            <End Role="tbPlanosLocaisTipos" EntitySet="tbPlanosLocaisTipos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ItauDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Anuncio">
+          <Key>
+            <PropertyRef Name="codAnuncio" />
+          </Key>
+          <Property Name="codAnuncio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codUsuario" Type="Int32" Nullable="false" />
+          <Property Name="titulo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="imagem" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="texto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="telefone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="site" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="endereco" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="latitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="longitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="dataCadastro" Type="DateTime" Precision="3" />
+          <Property Name="ativo" Type="Boolean" />
+          <NavigationProperty Name="AnuncioHistoricos" Relationship="Self.FKAnunciosHistoricosAnuncios" FromRole="tbAnuncios" ToRole="tbAnunciosHistoricos" />
+          <Property Name="codPlano" Type="Int32" />
+          <NavigationProperty Name="Plano" Relationship="ItauDBModel.FKAnunciosPlanos" FromRole="Anuncio" ToRole="Plano" />
+        </EntityType>
+        <EntityType Name="AnuncioHistorico">
+          <Key>
+            <PropertyRef Name="codAnuncioHistorico" />
+          </Key>
+          <Property Name="codAnuncioHistorico" Type="Int32" Nullable="false" />
+          <Property Name="codAnuncio" Type="Int32" />
+          <Property Name="codLocal" Type="Int32" />
+          <Property Name="dataInicial" Type="DateTime" Precision="3" />
+          <Property Name="dataFinal" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Local" Relationship="ItauDBModel.FKAnunciosHistoricosLocais" FromRole="AnuncioHistorico" ToRole="tbLocais" />
+        </EntityType>
+        <EntityType Name="Configuracao">
+          <Key>
+            <PropertyRef Name="parametro" />
+          </Key>
+          <Property Name="parametro" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="valor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="LocalTipo">
+          <Key>
+            <PropertyRef Name="codLocalTipo" />
+          </Key>
+          <Property Name="codLocalTipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ativo" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="codUsuario" />
+          </Key>
+          <Property Name="codUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="sobrenome" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="senha" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dataCadastro" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ativo" Type="Boolean" />
+          <NavigationProperty Name="Anuncios" Relationship="Self.FKAnuncioUsuarios" FromRole="tbUsuarios" ToRole="tbAnuncios" />
+        </EntityType>
+        <Association Name="FKAnunciosHistoricosAnuncios">
+          <End Role="tbAnuncios" Type="ItauDBModel.Anuncio" Multiplicity="0..1" />
+          <End Role="tbAnunciosHistoricos" Type="ItauDBModel.AnuncioHistorico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbAnuncios">
+              <PropertyRef Name="codAnuncio" />
+            </Principal>
+            <Dependent Role="tbAnunciosHistoricos">
+              <PropertyRef Name="codAnuncio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKAnuncioUsuarios">
+          <End Role="tbUsuarios" Type="ItauDBModel.Usuario" Multiplicity="1" />
+          <End Role="tbAnuncios" Type="ItauDBModel.Anuncio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuarios">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbAnuncios">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ItauDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Anuncios" EntityType="ItauDBModel.Anuncio" />
+          <EntitySet Name="AnunciosHistoricos" EntityType="ItauDBModel.AnuncioHistorico" />
+          <EntitySet Name="Configuracoes" EntityType="ItauDBModel.Configuracao" />
+          <EntitySet Name="LocaisTipos" EntityType="ItauDBModel.LocalTipo" />
+          <EntitySet Name="Usuarios" EntityType="ItauDBModel.Usuario" />
+          <AssociationSet Name="FKAnunciosHistoricosAnuncios" Association="Self.FKAnunciosHistoricosAnuncios">
+            <End Role="tbAnuncios" EntitySet="Anuncios" />
+            <End Role="tbAnunciosHistoricos" EntitySet="AnunciosHistoricos" />
+          </AssociationSet>
+          <AssociationSet Name="FKAnuncioUsuarios" Association="Self.FKAnuncioUsuarios">
+            <End Role="tbUsuarios" EntitySet="Usuarios" />
+            <End Role="tbAnuncios" EntitySet="Anuncios" />
+          </AssociationSet>
+          <EntitySet Name="Locais" EntityType="ItauDBModel.Local" />
+          <AssociationSet Name="FKAnunciosHistoricosLocais" Association="ItauDBModel.FKAnunciosHistoricosLocais">
+            <End Role="tbLocais" EntitySet="Locais" />
+            <End Role="AnuncioHistorico" EntitySet="AnunciosHistoricos" />
+          </AssociationSet>
+          <AssociationSet Name="FKbLocaisLocaisTipos" Association="ItauDBModel.FKbLocaisLocaisTipos">
+            <End Role="LocalTipo" EntitySet="LocaisTipos" />
+            <End Role="tbLocais" EntitySet="Locais" />
+          </AssociationSet>
+          <EntitySet Name="Planos" EntityType="ItauDBModel.Plano" />
+          <AssociationSet Name="tbPlanosLocaisTipos" Association="ItauDBModel.tbPlanosLocaisTipos">
+            <End Role="LocalTipo" EntitySet="LocaisTipos" />
+            <End Role="tbPlanos" EntitySet="Planos" />
+          </AssociationSet>
+          <AssociationSet Name="FKAnunciosPlanos" Association="ItauDBModel.FKAnunciosPlanos">
+            <End Role="Plano" EntitySet="Planos" />
+            <End Role="Anuncio" EntitySet="Anuncios" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Local">
+          <Key>
+            <PropertyRef Name="codLocal" />
+          </Key>
+          <Property Name="codLocal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codLocalTipo" Type="Int32" />
+          <Property Name="descricao" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="latitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="longitude" Type="Decimal" Precision="9" Scale="6" />
+          <NavigationProperty Name="LocalTipo" Relationship="ItauDBModel.FKbLocaisLocaisTipos" FromRole="tbLocais" ToRole="LocalTipo" />
+        </EntityType>
+        <Association Name="FKAnunciosHistoricosLocais">
+          <End Type="ItauDBModel.Local" Role="tbLocais" Multiplicity="0..1" />
+          <End Type="ItauDBModel.AnuncioHistorico" Role="AnuncioHistorico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbLocais">
+              <PropertyRef Name="codLocal" />
+            </Principal>
+            <Dependent Role="AnuncioHistorico">
+              <PropertyRef Name="codLocal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKbLocaisLocaisTipos">
+          <End Type="ItauDBModel.LocalTipo" Role="LocalTipo" Multiplicity="0..1" />
+          <End Type="ItauDBModel.Local" Role="tbLocais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocalTipo">
+              <PropertyRef Name="codLocalTipo" />
+            </Principal>
+            <Dependent Role="tbLocais">
+              <PropertyRef Name="codLocalTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Plano">
+          <Key>
+            <PropertyRef Name="codPlano" />
+          </Key>
+          <Property Name="codPlano" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descricao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="valor" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="LocaisTipos" Relationship="ItauDBModel.tbPlanosLocaisTipos" FromRole="tbPlanos" ToRole="LocalTipo" />
+        </EntityType>
+        <Association Name="tbPlanosLocaisTipos">
+          <End Type="ItauDBModel.LocalTipo" Role="LocalTipo" Multiplicity="*" />
+          <End Type="ItauDBModel.Plano" Role="tbPlanos" Multiplicity="*" />
+        </Association>
+        <Association Name="FKAnunciosPlanos">
+          <End Type="ItauDBModel.Plano" Role="Plano" Multiplicity="0..1" />
+          <End Type="ItauDBModel.Anuncio" Role="Anuncio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plano">
+              <PropertyRef Name="codPlano" />
+            </Principal>
+            <Dependent Role="Anuncio">
+              <PropertyRef Name="codPlano" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ItauDBModelStoreContainer" CdmEntityContainer="ItauDBEntities">
+          <EntitySetMapping Name="Anuncios">
+            <EntityTypeMapping TypeName="ItauDBModel.Anuncio">
+              <MappingFragment StoreEntitySet="tbAnuncios">
+                <ScalarProperty Name="codPlano" ColumnName="codPlano" />
+                <ScalarProperty Name="codAnuncio" ColumnName="codAnuncio" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="imagem" ColumnName="imagem" />
+                <ScalarProperty Name="texto" ColumnName="texto" />
+                <ScalarProperty Name="telefone" ColumnName="telefone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="site" ColumnName="site" />
+                <ScalarProperty Name="endereco" ColumnName="endereco" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="dataCadastro" ColumnName="dataCadastro" />
+                <ScalarProperty Name="ativo" ColumnName="ativo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnunciosHistoricos">
+            <EntityTypeMapping TypeName="ItauDBModel.AnuncioHistorico">
+              <MappingFragment StoreEntitySet="tbAnunciosHistoricos">
+                <ScalarProperty Name="codAnuncioHistorico" ColumnName="codAnuncioHistorico" />
+                <ScalarProperty Name="codAnuncio" ColumnName="codAnuncio" />
+                <ScalarProperty Name="codLocal" ColumnName="codLocal" />
+                <ScalarProperty Name="dataInicial" ColumnName="dataInicial" />
+                <ScalarProperty Name="dataFinal" ColumnName="dataFinal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configuracoes">
+            <EntityTypeMapping TypeName="ItauDBModel.Configuracao">
+              <MappingFragment StoreEntitySet="tbConfiguracoes">
+                <ScalarProperty Name="parametro" ColumnName="parametro" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocaisTipos">
+            <EntityTypeMapping TypeName="ItauDBModel.LocalTipo">
+              <MappingFragment StoreEntitySet="tbLocaisTipos">
+                <ScalarProperty Name="codLocalTipo" ColumnName="codLocalTipo" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="ativo" ColumnName="ativo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="ItauDBModel.Usuario">
+              <MappingFragment StoreEntitySet="tbUsuarios">
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="sobrenome" ColumnName="sobrenome" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="senha" ColumnName="senha" />
+                <ScalarProperty Name="dataCadastro" ColumnName="dataCadastro" />
+                <ScalarProperty Name="ativo" ColumnName="ativo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locais">
+            <EntityTypeMapping TypeName="ItauDBModel.Local">
+              <MappingFragment StoreEntitySet="tbLocais">
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="codLocalTipo" ColumnName="codLocalTipo" />
+                <ScalarProperty Name="codLocal" ColumnName="codLocal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Planos">
+            <EntityTypeMapping TypeName="ItauDBModel.Plano">
+              <MappingFragment StoreEntitySet="tbPlanos">
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="descricao" ColumnName="descricao" />
+                <ScalarProperty Name="codPlano" ColumnName="codPlano" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="tbPlanosLocaisTipos" TypeName="ItauDBModel.tbPlanosLocaisTipos" StoreEntitySet="tbPlanosLocaisTipos">
+            <EndProperty Name="tbPlanos">
+              <ScalarProperty Name="codPlano" ColumnName="codPlano" />
+            </EndProperty>
+            <EndProperty Name="LocalTipo">
+              <ScalarProperty Name="codLocalTipo" ColumnName="codLocalTipo" />
+            </EndProperty>
+          </AssociationSetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

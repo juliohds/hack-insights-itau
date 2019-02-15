@@ -1,0 +1,180 @@
+<!-- <ion-header class="header-main">
+  <ion-navbar color="dark">
+    <ion-title>
+    {{userData.email}}
+    </ion-title>
+    <ion-buttons>
+	    <button ion-button clear (click)="logout()">
+	      	<ion-icon name="md-exit"></ion-icon>
+	    </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header> -->
+
+<ion-header class="header-main">
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon class="color-txt" name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <p class="color-txt">MKT.co</p>
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only class="header-btn" (click)="logout()">
+        <ion-icon name="md-log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card>
+    <ion-card-header>
+      Seus Anuncios
+    </ion-card-header>
+    
+  <ion-fab right top>
+    <button ion-fab (click)="goToNovo()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+  </ion-card>
+
+  <div padding>
+    <ion-segment [(ngModel)]="pet">
+      <ion-segment-button value="kittens">
+        FREE
+      </ion-segment-button>
+      <ion-segment-button value="puppies">
+        Básico
+      </ion-segment-button>
+      <ion-segment-button value="puppies2">
+        Avançado
+      </ion-segment-button>
+      <ion-segment-button value="plus">
+        Plus
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="pet">
+    <ion-list *ngSwitchCase="'kittens'">
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/anuncio_basico.jpg">
+        </ion-thumbnail>
+        <ion-item>
+          <ion-icon name="ios-megaphone-outline" item-start></ion-icon>
+          500 pessoas
+          <ion-badge item-end>
+            <ion-icon name="ios-eye" item-start></ion-icon>
+          </ion-badge>
+          <ion-badge item-end color="danger">
+            <ion-icon name="md-close" item-start></ion-icon>
+          </ion-badge>
+        </ion-item>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'puppies'">
+      <ion-item (click)="goToDetalhe()">
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/anuncio_basico.jpg">
+        </ion-thumbnail>
+        <ion-item>
+          <ion-icon name="ios-megaphone-outline" item-start></ion-icon>
+          1 mil
+          <ion-badge item-end>
+            <ion-icon name="ios-eye" item-start></ion-icon>
+          </ion-badge>
+          <ion-badge item-end color="danger">
+            <ion-icon name="md-close" item-start></ion-icon>
+          </ion-badge>
+        </ion-item>
+      </ion-item>
+      <ion-item (click)="goToDetalhe()">
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/anuncio_basico2.jpg">
+        </ion-thumbnail>
+        <ion-item>
+          <ion-icon name="ios-megaphone-outline" item-start></ion-icon>
+          1 mil
+          <ion-badge item-end>
+            <ion-icon name="ios-eye" item-start></ion-icon>
+          </ion-badge>
+          <ion-badge item-end color="danger">
+            <ion-icon name="md-close" item-start></ion-icon>
+          </ion-badge>
+        </ion-item>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'puppies2'">
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/anuncio_basico.jpg">
+        </ion-thumbnail>
+        <ion-item>
+          <ion-icon name="ios-megaphone-outline" item-start></ion-icon>
+          10 mil
+          <ion-badge item-end>
+            <ion-icon name="ios-eye" item-start></ion-icon>
+          </ion-badge>
+          <ion-badge item-end color="danger">
+            <ion-icon name="md-close" item-start></ion-icon>
+          </ion-badge>
+        </ion-item>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'plus'">
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/anuncio_basico.jpg">
+        </ion-thumbnail>
+        <ion-item>
+          <ion-icon name="ios-megaphone-outline" item-start></ion-icon>
+          100 mil
+          <ion-badge item-end>
+            <ion-icon name="ios-eye" item-start></ion-icon>
+          </ion-badge>
+          <ion-badge item-end color="danger">
+            <ion-icon name="md-close" item-start></ion-icon>
+          </ion-badge>
+        </ion-item>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-card>
+    <ion-card-header>
+      Indique Anunciantes e ganhe
+    </ion-card-header>
+  </ion-card>
+
+  <ion-item>
+    <ion-label>Url:</ion-label>
+    <ion-input type="text" value="bit.ly.ID=USKOWK23k3k3kkkK"></ion-input>
+  </ion-item>
+
+
+  <div style="width: 100%; height: 222px;">
+    <ion-slides pager>
+
+      <ion-slide style="background-image: url('assets/imgs/interested.jpg')">
+      </ion-slide>
+
+      <ion-slide style="background-image: url('assets/imgs/interested.jpg')">
+      </ion-slide>
+
+      <ion-slide style="background-image: url('assets/imgs/insterested2.jpg')">
+      </ion-slide>
+
+    </ion-slides>
+  </div>
+
+  
+
+</ion-content>

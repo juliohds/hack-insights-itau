@@ -1,0 +1,60 @@
+page-detalhe {
+
+  .header-main {
+    background-color: $black !important;
+  }
+  .toolbar-ios {
+    ion-title {
+      left: 50%;
+      display: block;
+      margin: 0 auto;
+      @include calc("max-width", "100% - 90px");
+      width: auto;
+      @include transform(translateX(-50%));
+      p {
+        margin: 12px 0;
+      }
+    }
+  }
+  .header-btn {
+    margin-left: -35px !important;
+    color: #fff !important;
+  }
+  .color-txt {
+    color: #fff !important;
+  }
+
+  .toolbar-background {
+    background: #fff;
+    border-color: transparent;
+  }
+
+  .slide-zoom {
+    height: 100%;
+  }
+
+  .slide-title {
+    margin-top: 2.8rem;
+  }
+
+  .slide-image {
+    max-height: 50%;
+    max-width: 60%;
+    margin: 18px 0;
+  }
+
+  b {
+    font-weight: 500;
+  }
+
+  p {
+    padding: 0 40px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #60646b;
+
+    b {
+      color: #000000;
+    }
+  }
+}
